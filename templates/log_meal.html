@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h2>Log Meal</h2>
+<form method="POST">
+  <label>Date: <input type="date" name="date" required></label>
+  <label>Meal Time: <input type="text" name="meal_time" placeholder="e.g. 08:00 AM"></label>
+  <label>Description:<br><textarea name="description" rows="3"></textarea></label>
+  <label>Protein (g): <input type="number" name="protein" required></label>
+  <label>Carbs (g): <input type="number" name="carbs" required></label>
+  <label>Fat (g): <input type="number" name="fat" required></label>
+  <label>Fasted?
+    <select name="fasted">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+  </label>
+  <button type="submit">Save Meal</button>
+</form>
+{% endblock %}

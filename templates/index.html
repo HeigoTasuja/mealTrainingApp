@@ -1,0 +1,12 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome!</h2>
+<p>Date: {{ today }}</p>
+<p>Choose what you'd like to log today:</p>
+<ul>
+  <li><a href="/log-workout">Log a Workout</a></li>
+  <li><a href="/log-meal">Log a Meal</a></li>
+  <li><a href="/refeed">View Refeed Plan</a></li>
+</ul>
+{% endblock %}

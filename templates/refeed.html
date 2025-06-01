@@ -1,0 +1,13 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h2>Refeed Plan</h2>
+<ul>
+  {% for meal in meals %}
+    <li>
+      <strong>{{ meal.meal }}</strong><br>
+      Protein: {{ meal.protein }}g, Carbs: {{ meal.carbs }}g, Fat: {{ meal.fat }}g
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

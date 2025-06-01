@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h2>Log Workout</h2>
+<form method="POST">
+  <label>Date: <input type="date" name="date" required></label>
+  <label>Session Type:
+    <select name="session_type">
+      <option>Strength</option>
+      <option>Mobility</option>
+    </select>
+  </label>
+  <label>Body Part:
+    <select name="body_part">
+      <option>Chest</option>
+      <option>Back</option>
+      <option>Legs</option>
+      <option>Shoulders</option>
+      <option>Arms</option>
+      <option>Mobility</option>
+    </select>
+  </label>
+  <label>Exercises:<br>
+    <textarea name="exercises" rows="4"></textarea>
+  </label>
+  <label>Notes:<br>
+    <textarea name="notes" rows="3"></textarea>
+  </label>
+  <button type="submit">Save Workout</button>
+</form>
+{% endblock %}

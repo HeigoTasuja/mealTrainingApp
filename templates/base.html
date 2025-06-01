@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Training Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>🧠 Tracker</h1>
+    <nav>
+      <a href="/">🏠 Home</a>
+      <a href="/log-workout">🏋️ Workout</a>
+      <a href="/log-meal">🍽️ Meal</a>
+      <a href="/refeed">🔄 Refeed</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
