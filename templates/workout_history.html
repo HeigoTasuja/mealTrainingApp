@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workout History</title>
+</head>
+<body>
+    <h1>Workout History</h1>
+    {% for w in workouts %}
+        <div style="margin-bottom: 1.5em;">
+            <strong>Date:</strong> {{ w.date }}<br>
+            <strong>Type:</strong> {{ w.session_type }}<br>
+            <strong>Body Part:</strong> {{ w.body_part }}<br>
+            <strong>Exercises:</strong> {{ w.exercises }}<br>
+            <strong>Notes:</strong> {{ w.notes }}
+        </div>
+    {% endfor %}
+    <a href="/">Back to home</a>
+</body>
+</html>

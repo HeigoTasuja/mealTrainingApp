@@ -27,3 +27,13 @@ def log_meal():
 
     default_date = datetime.now().strftime("%Y-%m-%d")
     return render_template("log_meal.html", default_date=default_date)
+
+
+
+@meals_bp.route("/history")
+def meal_history():
+    with get_connection() as conn:
+        rows = conn.execute(
+            "SELECT * FROM meals ORDER BY date DESC, id DESC"
+        ).fetchall()
+    return render_template("meal_history.html", meals=rows)

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meal History</title>
+</head>
+<body>
+    <h1>Meal & Nutrition History</h1>
+    {% for m in meals %}
+        <div style="margin-bottom: 1.5em;">
+            <strong>Date:</strong> {{ m.date }} — <strong>{{ m.meal_time }}</strong><br>
+            <strong>Description:</strong> {{ m.description }}<br>
+            <strong>Protein:</strong> {{ m.protein }}g, 
+            <strong>Carbs:</strong> {{ m.carbs }}g, 
+            <strong>Fat:</strong> {{ m.fat }}g<br>
+            <strong>Fasted?</strong> {{ m.fasted }}
+        </div>
+    {% endfor %}
+    <a href="/">Back to home</a>
+</body>
+</html>

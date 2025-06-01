@@ -43,4 +43,23 @@ def init_db() -> None:
             )
             """
         )
+        # New tables for workout plans and exercises
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS workout_plans (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT UNIQUE,
+                category TEXT  -- 'mobility' or 'strength'
+            )
+        """)
+
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS exercises (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                plan_id INTEGER,
+                name TEXT,
+                description TEXT,
+                FOREIGN KEY(plan_id) REFERENCES workout_plans(id) ON DELETE CASCADE
+            )
+        """)
         conn.commit()
+

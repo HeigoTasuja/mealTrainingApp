@@ -26,3 +26,12 @@ def log_workout():
     # Pre‑fill current date for convenience
     default_date = datetime.now().strftime("%Y-%m-%d")
     return render_template("log_workout.html", default_date=default_date)
+
+
+@workouts_bp.route("/history")
+def workout_history():
+    with get_connection() as conn:
+        rows = conn.execute(
+            "SELECT * FROM workouts ORDER BY date DESC, id DESC"
+        ).fetchall()
+    return render_template("workout_history.html", workouts=rows)
