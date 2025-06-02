@@ -11,6 +11,8 @@ from blueprints.workout_plans import workout_plans_bp
 def create_app():
     app = Flask(__name__)
 
+    app.secret_key = "9aysd9yas97tyvadsiuyf9asfauyv98asy9" # :TODO update nad place somewhere secure and replace with variable
+
     # Initialize the SQLite DB and ensure tables exist
     init_db()
 

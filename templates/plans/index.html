@@ -1,53 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h2>🏋️ Workout Plans by Weekday</h2>
+<h2>🏋️ Weekly Exercises</h2>
 
 {% set weekdays = ['Monday','Tuesday','Wednesday','Thursday','Friday'] %}
 {% set categories = ['Strength','Mobility'] %}
 
-{% for day in weekdays %}
-  <h3 style="margin-top:2rem;">{{ day }}</h3>
-  {% for cat in categories %}
-    <h4 style="margin:0.5rem 0;">{{ cat }}</h4>
+{% for d in weekdays %}
+  <h3 style="margin-top:1.5rem;">{{ d }}</h3>
+  {% for c in categories %}
+    <h4>{{ c }}</h4>
 
-    <!-- Add Plan Form -->
-    <form method="POST" action="{{ url_for('workout_plans.add_plan') }}" style="margin-bottom:1rem;">
-      <input type="hidden" name="day_of_week" value="{{ day }}">
-      <input type="hidden" name="category" value="{{ cat }}">
-      <input type="text" name="name" placeholder="Plan name" required style="width:20%;">
-      <input type="text" name="body_part" placeholder="Body part" required style="width:20%;">
-      <button type="submit">➕ Add Plan</button>
+    <!-- list exercises -->
+    <ul>
+      {% for ex in exercises if ex.day == d and ex.category == c %}
+        <li>
+          {{ ex.name }} — {{ ex.description }}
+          <form action="{{ url_for('workout_plans.delete_exercise', exercise_id=ex.id) }}"
+                method="POST" style="display:inline;">
+            <button style="border:none;color:#d00;background:none;">✕</button>
+          </form>
+        </li>
+      {% else %}
+        <li><em>No exercises yet.</em></li>
+      {% endfor %}
+    </ul>
+
+    <!-- add new exercise -->
+    <form action="{{ url_for('workout_plans.add_exercise') }}" method="POST" style="margin-bottom:1rem;">
+      <input type="hidden" name="day" value="{{ d }}">
+      <input type="hidden" name="category" value="{{ c }}">
+      <input type="text" name="name" placeholder="Exercise" required>
+      <input type="text" name="description" placeholder="Sets / reps">
+      <button>➕ Add</button>
     </form>
-
-    <!-- Plans for this day + category -->
-    {% for plan in plans if plan.day == day and plan.category==cat %}
-      <div style="margin-bottom:1.5rem; padding:0.5rem 1rem; border:1px solid #ccc; border-radius:6px;">
-        <strong>{{ plan.name }} ({{ plan.body_part }})</strong>
-
-        <ul style="margin-top:0.5rem;">
-          {% for ex in exercises if ex.plan_id == plan.id %}
-            <li>
-              {{ ex.name }} — {{ ex.description }}
-              <form method="POST" action="{{ url_for('workout_plans.delete_exercise', exercise_id=ex.id) }}" style="display:inline;">
-                <input type="hidden" name="plan_id" value="{{ plan.id }}">
-                <button type="submit" style="color:#d00;border:none;background:none;">✕</button>
-              </form>
-            </li>
-          {% else %}
-            <li><em>No exercises yet.</em></li>
-          {% endfor %}
-        </ul>
-
-        <!-- Add Exercise Form -->
-        <form method="POST" action="{{ url_for('workout_plans.add_exercise', plan_id=plan.id) }}" style="margin-top:0.5rem;">
-          <input type="text" name="name" placeholder="Exercise name" required style="width:30%;">
-          <input type="text" name="description" placeholder="Notes (e.g. sets/reps)" style="width:40%;">
-          <button type="submit">➕ Add Exercise</button>
-        </form>
-      </div>
-    {% endfor %}
   {% endfor %}
 {% endfor %}
-
 {% endblock %}
