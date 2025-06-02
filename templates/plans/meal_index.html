@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>🍽️ Weekly Meal Planner</h2>
+
+{% set days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+{% set slots = ['Breakfast','Lunch','Snack','Dinner'] %}
+
+{% for d in days %}
+  <h3 style="margin-top:1.5rem;">{{ d }}</h3>
+  {% for slot in slots %}
+    <h4>{{ slot }}</h4>
+
+    <!-- List meals -->
+    <ul>
+      {% for m in meals if m.day == d and m.meal_type == slot %}
+        <li>
+          {{ m.name }}
+          {% if m.ingredients %} — {{ m.ingredients }}{% endif %}
+          {% if m.calories %} ({{ m.calories }} kcal){% endif %}
+          <form action="{{ url_for('meal_plans.delete_meal', meal_id=m.id) }}"
+                method="POST" style="display:inline;">
+            <button style="border:none;color:#d00;background:none;">✕</button>
+          </form>
+        </li>
+      {% else %}
+        <li><em>No meal yet.</em></li>
+      {% endfor %}
+    </ul>
+
+    <!-- Add meal -->
+    <form action="{{ url_for('meal_plans.add_meal') }}" method="POST" style="margin-bottom:1rem;">
+      <input type="hidden" name="day" value="{{ d }}">
+      <input type="hidden" name="meal_type" value="{{ slot }}">
+      <input type="text" name="name" placeholder="Meal name" required>
+      <input type="text" name="ingredients" placeholder="Ingredients (opt)">
+      <input type="number" step="any" name="calories" placeholder="kcal (opt)" style="width:6rem;">
+      <button>➕ Add</button>
+    </form>
+  {% endfor %}
+{% endfor %}
+{% endblock %}

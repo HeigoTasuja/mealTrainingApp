@@ -6,6 +6,7 @@ from blueprints.workouts import workouts_bp
 from blueprints.meals import meals_bp
 from blueprints.refeed import refeed_bp
 from blueprints.workout_plans import workout_plans_bp
+from blueprints.meal_plans import meal_plans_bp
 
 
 def create_app():
@@ -21,6 +22,7 @@ def create_app():
     app.register_blueprint(meals_bp)
     app.register_blueprint(refeed_bp)
     app.register_blueprint(workout_plans_bp)
+    app.register_blueprint(meal_plans_bp)
 
     # Root route
     @app.route("/")
