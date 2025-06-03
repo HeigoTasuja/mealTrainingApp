@@ -1,41 +1,80 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>🍽️ Weekly Meal Planner</h2>
+<div style="display: flex; gap: 2rem;">
 
-{% set days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
-{% set slots = ['Breakfast','Lunch','Snack','Dinner'] %}
+<!-- Left Column: Planner -->
+<div style="flex: 1;">
+  {% set days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+  {% set slots = ['Breakfast','Lunch','Snack','Dinner'] %}
+  {% for d in days %}
+    <h3 style="margin-top:1.5rem;">{{ d }}</h3>
+    {% for slot in slots %}
+      <h4>{{ slot }}</h4>
+      <ul>
+        {% for m in meals if m.day == d and m.meal_type == slot %}
+          <li>
+            {{ m.name }}
+            {% if m.ingredients %} — {{ m.ingredients }}{% endif %}
+            {% if m.calories %} ({{ m.calories }} kcal){% endif %}
+            <form action="{{ url_for('meal_plans.delete_meal', meal_id=m.id) }}"
+                  method="POST" style="display:inline;">
+              <button style="border:none;color:#d00;background:none;">✕</button>
+            </form>
+          </li>
+        {% else %}
+          <li><em>No meal yet.</em></li>
+        {% endfor %}
+      </ul>
 
-{% for d in days %}
-  <h3 style="margin-top:1.5rem;">{{ d }}</h3>
-  {% for slot in slots %}
-    <h4>{{ slot }}</h4>
-
-    <!-- List meals -->
-    <ul>
-      {% for m in meals if m.day == d and m.meal_type == slot %}
-        <li>
-          {{ m.name }}
-          {% if m.ingredients %} — {{ m.ingredients }}{% endif %}
-          {% if m.calories %} ({{ m.calories }} kcal){% endif %}
-          <form action="{{ url_for('meal_plans.delete_meal', meal_id=m.id) }}"
-                method="POST" style="display:inline;">
-            <button style="border:none;color:#d00;background:none;">✕</button>
-          </form>
-        </li>
-      {% else %}
-        <li><em>No meal yet.</em></li>
-      {% endfor %}
-    </ul>
-
-    <!-- Add meal -->
-    <form action="{{ url_for('meal_plans.add_meal') }}" method="POST" style="margin-bottom:1rem;">
-      <input type="hidden" name="day" value="{{ d }}">
-      <input type="hidden" name="meal_type" value="{{ slot }}">
-      <input type="text" name="name" placeholder="Meal name" required>
-      <input type="text" name="ingredients" placeholder="Ingredients (opt)">
-      <input type="number" step="any" name="calories" placeholder="kcal (opt)" style="width:6rem;">
-      <button>➕ Add</button>
-    </form>
+      <form action="{{ url_for('meal_plans.add_meal') }}" method="POST" style="margin-bottom:1rem;">
+        <input type="hidden" name="day" value="{{ d }}">
+        <input type="hidden" name="meal_type" value="{{ slot }}">
+        <input type="text" name="name" placeholder="Meal name" required>
+        <input type="text" name="ingredients" placeholder="Ingredients (opt)">
+        <input type="number" step="any" name="calories" placeholder="kcal (opt)" style="width:6rem;">
+        <button>➕ Add</button>
+      </form>
+    {% endfor %}
   {% endfor %}
-{% endfor %}
+</div>
+
+<!-- Right Column: Ingredients -->
+<div style="flex: 1;">
+  <h3>🧮 Ingredient Reference</h3>
+  <form method="POST" action="{{ url_for('ingredients.manage_ingredients') }}" style="margin-bottom: 1rem;">
+    <input name="name" placeholder="Ingredient name" required>
+    <input name="calories" type="number" step="any" placeholder="kcal/100g" required>
+    <input name="protein" type="number" step="any" placeholder="protein/100g" required>
+    <input name="carbs" type="number" step="any" placeholder="carbs/100g" required>
+    <input name="fat" type="number" step="any" placeholder="fat/100g" required>
+    <button>Add Ingredient</button>
+  </form>
+
+  <ul>
+    {% for i in ingredients %}
+      <li>
+        <strong>{{ i.name }}</strong> – {{ i.calories }} kcal, {{ i.protein }}P / {{ i.carbs }}C / {{ i.fat }}F per 100g
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h4 style="margin-top:1.5rem;">🧠 Macro Calculator</h4>
+  
+    <form action="{{ url_for('ingredients.calculate_macros') }}" method="POST">
+        <input type="text" name="name" placeholder="Ingredient name" required>
+        <input type="number" step="any" name="grams" placeholder="Grams" required>
+        <button type="submit">Calculate</button>
+    </form>
+{% if result %}
+  <h4>Calculated Macros for {{ result.grams }}g of {{ result.name }}</h4>
+  <ul>
+    <li>Calories: {{ result.calories }}</li>
+    <li>Protein: {{ result.protein }} g</li>
+    <li>Carbs: {{ result.carbs }} g</li>
+    <li>Fat: {{ result.fat }} g</li>
+  </ul>
+{% endif %}
+    </div>
+</div>
 {% endblock %}

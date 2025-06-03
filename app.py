@@ -7,6 +7,7 @@ from blueprints.meals import meals_bp
 from blueprints.refeed import refeed_bp
 from blueprints.workout_plans import workout_plans_bp
 from blueprints.meal_plans import meal_plans_bp
+from blueprints.ingredients import ingredients_bp
 
 
 def create_app():
@@ -23,6 +24,7 @@ def create_app():
     app.register_blueprint(refeed_bp)
     app.register_blueprint(workout_plans_bp)
     app.register_blueprint(meal_plans_bp)
+    app.register_blueprint(ingredients_bp, url_prefix="/ingredients")
 
     # Root route
     @app.route("/")
