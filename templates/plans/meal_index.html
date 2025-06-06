@@ -11,38 +11,39 @@
     <h3 style="margin-top:1.5rem;">{{ d }}</h3>
     {% for slot in slots %}
       <h4>{{ slot }}</h4>
-        <ul>
+      <ul>
         {% for m in meals if m.day == d and m.meal_type == slot %}
-            <li>
-                <strong>{{ m.name }}</strong>
-        <ul>
-        {% for ing in m.ingredients %}
-            <li>{{ ing.grams }}g {{ ing.name }} — {{ ing.calories }} kcal, {{ ing.protein }}P / {{ ing.carbs }}C / {{ ing.fat }}F</li>
-        {% endfor %}
-        </ul>
+          <li>
+            <strong>{{ m.name }}</strong>
+            <a href="{{ url_for('meals.log_meal', from_meal_id=m.id) }}">Log This Meal</a>
+            <ul>
+              {% for ing in m.ingredients %}
+                <li>{{ ing.grams }}g {{ ing.name }} — {{ ing.calories }} kcal, {{ ing.protein }}P / {{ ing.carbs }}C / {{ ing.fat }}F</li>
+              {% endfor %}
+            </ul>
             <strong>Total:</strong> {{ m.totals.calories }} kcal, {{ m.totals.protein }}P / {{ m.totals.carbs }}C / {{ m.totals.fat }}F
-            <form action="{{ url_for('meal_plans.delete_meal', meal_id=m.id) }}"
-                method="POST" style="display:inline;">
-            <button style="border:none;color:#d00;background:none;">✕</button>
-        </form>
+            <form action="{{ url_for('meal_plans.delete_meal', meal_id=m.id) }}" method="POST" style="display:inline;">
+              <button style="border:none;color:#d00;background:none;">✕</button>
+            </form>
 
-      <!-- Add Ingredient to Meal -->
-        <form action="{{ url_for('meal_plans.add_ingredient') }}" method="POST" style="margin-top: 0.5rem;">
-            <input type="hidden" name="meal_id" value="{{ m.id }}">
-            <select name="ingredient_id">
-            {% for i in ingredients %}
-                <option value="{{ i.id }}">{{ i.name }}</option>
-            {% endfor %}
-            </select>
-                <input name="grams" type="number" step="any" placeholder="grams" required>
-                <button>Add</button>
-        </form>
-            </li>
-                {% else %}
-            <li><em>No meal yet.</em></li>
+            <!-- Add Ingredient to Meal -->
+            <form action="{{ url_for('meal_plans.add_ingredient') }}" method="POST" style="margin-top: 0.5rem;">
+              <input type="hidden" name="meal_id" value="{{ m.id }}">
+              <select name="ingredient_id">
+                {% for i in ingredients %}
+                  <option value="{{ i.id }}">{{ i.name }}</option>
                 {% endfor %}
-        </ul>
+              </select>
+              <input name="grams" type="number" step="any" placeholder="grams" required>
+              <button>Add</button>
+            </form>
+          </li>
+        {% else %}
+          <li><em>No meal yet.</em></li>
+        {% endfor %}
+      </ul>
 
+      <!-- Add Meal Form -->
       <form action="{{ url_for('meal_plans.add_meal') }}" method="POST" style="margin-bottom:1rem;">
         <input type="hidden" name="day" value="{{ d }}">
         <input type="hidden" name="meal_type" value="{{ slot }}">
@@ -50,7 +51,11 @@
 
         <div class="ingredients-container">
           <div class="ingredient-row">
-            <input type="text" name="ingredient_name" placeholder="Ingredient name" required>
+            <select name="ingredient_name" required>
+              {% for i in ingredients %}
+                <option value="{{ i.name }}">{{ i.name }}</option>
+              {% endfor %}
+            </select>
             <input type="number" name="ingredient_grams" step="any" placeholder="Grams" required>
           </div>
         </div>
@@ -58,8 +63,7 @@
         <button type="submit">💾 Add Meal</button>
       </form>
     {% endfor %}
-  {% endfor %}
-</div>
+  {% endfor %}</div>
 
 <!-- Right Column: Ingredients -->
 <div style="flex: 1;">
@@ -105,7 +109,11 @@ function addIngredientRow(button) {
   const row = document.createElement("div");
   row.className = "ingredient-row";
   row.innerHTML = `
-    <input type="text" name="ingredient_name" placeholder="Ingredient name" required>
+    <select name="ingredient_name" required>
+      {% for i in ingredients %}
+        <option value="{{ i.name }}">{{ i.name }}</option>
+      {% endfor %}
+    </select>
     <input type="number" name="ingredient_grams" step="any" placeholder="Grams" required>
   `;
   container.appendChild(row);

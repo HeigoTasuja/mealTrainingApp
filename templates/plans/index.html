@@ -32,6 +32,7 @@
       <input type="text" name="name" placeholder="Exercise" required>
       <input type="text" name="description" placeholder="Sets / reps">
       <button>➕ Add</button>
+      <a href="{{ url_for('workouts.log_workout', from_day=d) }}">Log Today's {{ d }} Workout</a>
     </form>
   {% endfor %}
 {% endfor %}
