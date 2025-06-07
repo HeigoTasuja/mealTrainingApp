@@ -1,62 +1,97 @@
-
 body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f9f9f9;
-  color: #333;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f9fafc;
+    color: #333;
+    padding: 2rem;
 }
 
-header {
-  background: #222;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
+h2, h3, h4 {
+    margin-bottom: 0.5rem;
 }
 
-nav a {
-  color: #fff;
-  margin: 0 10px;
-  text-decoration: none;
-}
-
-main {
-  padding: 1rem;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-input, select, textarea, button {
-  font-size: 1rem;
-  padding: 0.5rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-button {
-  background-color: #007aff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-button:hover {
-  background-color: #005fcc;
+h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.3rem;
+    margin-top: 2rem;
 }
 
 ul {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding-left: 0;
 }
 
-li {
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  background: #fff;
-  border-radius: 6px;
+ul li {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s;
+}
+
+ul li:hover {
+    background: #f5f5f5;
+}
+
+form {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+form input,
+form select,
+form button {
+    margin: 0.25rem 0;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+.ingredient-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.ingredients-container {
+    margin-bottom: 0.5rem;
+}
+
+button.add-ingredient-btn {
+    background-color: #28a745;
+}
+
+button.add-ingredient-btn:hover {
+    background-color: #218838;
+}
+
+button.delete-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 0;
+}
+
+button.delete-btn:hover {
+    text-decoration: underline;
 }
