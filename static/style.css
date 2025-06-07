@@ -1,97 +1,101 @@
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f9fafc;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #fafafa;
     color: #333;
-    padding: 2rem;
+    line-height: 1.6;
+    padding-top: 2rem;
 }
 
 h2, h3, h4 {
-    margin-bottom: 0.5rem;
-}
-
-h3 {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 0.3rem;
-    margin-top: 2rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 0.75rem;
 }
 
 ul {
-    list-style-type: none;
+    list-style: none;
     padding-left: 0;
 }
 
-ul li {
-    background: #fff;
-    border: 1px solid #e1e1e1;
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 0.5rem;
-    transition: background 0.2s;
+li {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #eee;
 }
 
-ul li:hover {
-    background: #f5f5f5;
-}
-
-form {
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-form input,
-form select,
-form button {
-    margin: 0.25rem 0;
-}
-
-form input[type="text"],
-form input[type="number"],
-form select {
-    width: 100%;
-    padding: 0.4rem 0.6rem;
+/* Form controls */
+input[type="text"],
+input[type="number"],
+select {
+    border-radius: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 0.95rem;
 }
 
-form button {
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 3px rgba(102, 175, 233, 0.6);
 }
 
-form button:hover {
-    background-color: #0056b3;
-}
-
-.ingredient-row {
+/* Ingredients container for dynamic rows */
+.ingredients-container .ingredient-row {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
-.ingredients-container {
+.ingredients-container .ingredient-row select,
+.ingredients-container .ingredient-row input {
+    flex: 1;
+}
+
+/* Add Ingredient Button */
+.add-ingredient-btn {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Delete button (✕) */
+.delete-btn {
+    border: none;
+    background: none;
+    color: #d00;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.delete-btn:hover {
+    color: #a00;
+    transform: scale(1.1);
+}
+
+/* Forms */
+form {
+    margin-bottom: 1rem;
+}
+
+form .form-control,
+form .form-select {
     margin-bottom: 0.5rem;
 }
 
-button.add-ingredient-btn {
-    background-color: #28a745;
+/* Meal List Items */
+li strong {
+    color: #000;
 }
 
-button.add-ingredient-btn:hover {
-    background-color: #218838;
-}
-
-button.delete-btn {
-    background: none;
-    border: none;
-    color: #dc3545;
-    cursor: pointer;
-    padding: 0;
-}
-
-button.delete-btn:hover {
-    text-decoration: underline;
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .ingredients-container .ingredient-row {
+        flex-direction: column;
+    }
 }
