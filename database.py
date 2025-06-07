@@ -15,9 +15,9 @@ def init_db() -> None:
     """Create tables if they do not exist (idempotent)."""
     with get_connection() as conn:
         c = conn.cursor()
+
         # Workouts table
-        c.execute(
-            """
+        c.execute("""
             CREATE TABLE IF NOT EXISTS workouts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date TEXT,
@@ -26,11 +26,10 @@ def init_db() -> None:
                 exercises TEXT,
                 notes TEXT
             )
-            """
-        )
-        # Meals table
-        c.execute(
-            """
+        """)
+
+        # Meals table (logged meals)
+        c.execute("""
             CREATE TABLE IF NOT EXISTS meals (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date TEXT,
@@ -41,25 +40,65 @@ def init_db() -> None:
                 fat REAL,
                 fasted TEXT
             )
-            """
-        )
-        # New tables for workout plans and exercises
+        """)
+
+        # Workout plans table (plans UI)
         c.execute("""
             CREATE TABLE IF NOT EXISTS workout_plans (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT UNIQUE,
-                category TEXT  -- 'mobility' or 'strength'
+                name TEXT,
+                category TEXT,
+                day TEXT,         -- e.g., Monday, Tuesday...
+                type TEXT,        -- e.g., mobility or strength
+                body_part TEXT
             )
         """)
 
+        # Exercises linked to workout plans
         c.execute("""
             CREATE TABLE IF NOT EXISTS exercises (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                plan_id INTEGER,
-                name TEXT,
+                name TEXT NOT NULL,
                 description TEXT,
-                FOREIGN KEY(plan_id) REFERENCES workout_plans(id) ON DELETE CASCADE
+                day TEXT NOT NULL,
+                category TEXT NOT NULL
             )
         """)
-        conn.commit()
 
+        # Meal plans table (planner UI)
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS meal_plans (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                day TEXT NOT NULL,
+                meal_type TEXT NOT NULL,
+                name TEXT NOT NULL,
+                ingredients TEXT,
+                calories REAL
+            )
+        """)
+
+        # Ingredients reference table
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS ingredients (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE,
+                calories REAL NOT NULL,
+                protein REAL NOT NULL,
+                carbs REAL NOT NULL,
+                fat REAL NOT NULL
+            )
+        """)
+
+        # Meal ingredients link table (for meal_plans)
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS meal_ingredients (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                meal_id INTEGER NOT NULL,
+                ingredient_id INTEGER NOT NULL,
+                grams REAL NOT NULL,
+                FOREIGN KEY(meal_id) REFERENCES meal_plans(id),
+                FOREIGN KEY(ingredient_id) REFERENCES ingredients(id)
+            )
+        """)
+
+        conn.commit()
