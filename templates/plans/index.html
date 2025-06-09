@@ -1,38 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>🏋️ Weekly Exercises</h2>
+<h2 class="mb-4">🏋️ Weekly Exercises</h2>
 
 {% set weekdays = ['Monday','Tuesday','Wednesday','Thursday','Friday'] %}
 {% set categories = ['Strength','Mobility'] %}
 
 {% for d in weekdays %}
-  <h3 style="margin-top:1.5rem;">{{ d }}</h3>
+  <h3 class="mt-4">{{ d }}</h3>
   {% for c in categories %}
-    <h4>{{ c }}</h4>
+    <h4 class="mt-3">{{ c }}</h4>
 
     <!-- list exercises -->
-    <ul>
+    <ul class="list-group mb-2">
       {% for ex in exercises if ex.day == d and ex.category == c %}
-        <li>
-          {{ ex.name }} — {{ ex.description }}
-          <form action="{{ url_for('workout_plans.delete_exercise', exercise_id=ex.id) }}"
-                method="POST" style="display:inline;">
-            <button style="border:none;color:#d00;background:none;">✕</button>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ ex.name }}</strong> — {{ ex.description }}
+          </div>
+          <form action="{{ url_for('workout_plans.delete_exercise', exercise_id=ex.id) }}" method="POST" class="ms-2">
+            <button class="btn btn-sm btn-danger">✕</button>
           </form>
         </li>
       {% else %}
-        <li><em>No exercises yet.</em></li>
+        <li class="list-group-item"><em>No exercises yet.</em></li>
       {% endfor %}
     </ul>
 
     <!-- add new exercise -->
-    <form action="{{ url_for('workout_plans.add_exercise') }}" method="POST" style="margin-bottom:1rem;">
+    <form action="{{ url_for('workout_plans.add_exercise') }}" method="POST" class="mb-4">
       <input type="hidden" name="day" value="{{ d }}">
       <input type="hidden" name="category" value="{{ c }}">
-      <input type="text" name="name" placeholder="Exercise" required>
-      <input type="text" name="description" placeholder="Sets / reps">
-      <button>➕ Add</button>
-      <a href="{{ url_for('workouts.log_workout', from_day=d) }}">Log Today's {{ d }} Workout</a>
+      <div class="mb-2">
+        <input type="text" name="name" class="form-control mb-1" placeholder="Exercise" required>
+        <input type="text" name="description" class="form-control mb-1" placeholder="Sets / reps">
+      </div>
+      <button class="btn btn-primary btn-sm">➕ Add</button>
+      <a href="{{ url_for('workouts.log_workout', from_day=d) }}" class="btn btn-secondary btn-sm ms-2">Log Today's {{ d }} Workout</a>
     </form>
   {% endfor %}
 {% endfor %}

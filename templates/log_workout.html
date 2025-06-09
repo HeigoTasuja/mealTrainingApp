@@ -1,17 +1,21 @@
-
 {% extends "base.html" %}
 {% block content %}
-<h2>Log Workout</h2>
-<form method="POST">
-  <label>Date: <input type="date" name="date" required></label>
-  <label>Session Type:
-    <select name="session_type">
+<h2 class="mb-4">🏋️ Log Workout</h2>
+<form method="POST" class="mb-4">
+  <div class="mb-2">
+    <label class="form-label">Date</label>
+    <input type="date" name="date" class="form-control" required>
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Session Type</label>
+    <select name="session_type" class="form-select">
       <option>Strength</option>
       <option>Mobility</option>
     </select>
-  </label>
-  <label>Body Part:
-    <select name="body_part">
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Body Part</label>
+    <select name="body_part" class="form-select">
       <option>Chest</option>
       <option>Back</option>
       <option>Legs</option>
@@ -19,13 +23,15 @@
       <option>Arms</option>
       <option>Mobility</option>
     </select>
-  </label>
-  <label>Exercises:<br>
-    <textarea name="exercises" rows="4">{{ prefill_exercises }}</textarea>
-  </label>
-  <label>Notes:<br>
-    <textarea name="notes" rows="3"></textarea>
-  </label>
-  <button type="submit">Save Workout</button>
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Exercises</label>
+    <textarea name="exercises" rows="4" class="form-control">{{ prefill_exercises }}</textarea>
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Notes</label>
+    <textarea name="notes" rows="3" class="form-control"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Save Workout</button>
 </form>
 {% endblock %}

@@ -1,19 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Log Meal</h2>
-<form method="POST">
-  <label>Date: <input type="date" name="date" required></label>
-  <label>Meal Time: <input type="text" name="meal_time" placeholder="e.g. 08:00 AM"></label>
-  <input type="text" name="description" value="{{ prefill.description if prefill else '' }}">
-  <input type="number" name="protein" value="{{ prefill.protein if prefill else '' }}">
-  <input type="number" name="carbs" value="{{ prefill.carbs if prefill else '' }}">
-  <input type="number" name="fat" value="{{ prefill.fat if prefill else '' }}">
-  <label>Fasted?
-    <select name="fasted">
+<h2 class="mb-4">🍽️ Log Meal</h2>
+<form method="POST" class="mb-4">
+  <div class="mb-2">
+    <label class="form-label">Date</label>
+    <input type="date" name="date" class="form-control" required>
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Meal Time</label>
+    <input type="text" name="meal_time" class="form-control" placeholder="e.g. 08:00 AM">
+  </div>
+  <div class="mb-2">
+    <input type="text" name="description" class="form-control" placeholder="Description" value="{{ prefill.description if prefill else '' }}">
+  </div>
+  <div class="mb-2">
+    <input type="number" name="protein" class="form-control" placeholder="Protein (g)" value="{{ prefill.protein if prefill else '' }}">
+    <input type="number" name="carbs" class="form-control" placeholder="Carbs (g)" value="{{ prefill.carbs if prefill else '' }}">
+    <input type="number" name="fat" class="form-control" placeholder="Fat (g)" value="{{ prefill.fat if prefill else '' }}">
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Fasted?</label>
+    <select name="fasted" class="form-select">
       <option>Yes</option>
       <option>No</option>
     </select>
-  </label>
-  <button type="submit">Save Meal</button>
+  </div>
+  <button type="submit" class="btn btn-primary">Save Meal</button>
 </form>
 {% endblock %}
