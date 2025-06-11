@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from database import get_connection
+from blueprints.meal_plans import get_meals_with_macros
 
 ingredients_bp = Blueprint("ingredients", __name__)
 
@@ -56,4 +57,6 @@ def calculate_macros():
     with get_connection() as conn:
         meals = conn.execute("SELECT * FROM meal_plans ORDER BY day").fetchall()
 
-    return render_template("plans/meal_index.html", ingredient=ingredient, meals=meals, result=result)
+    meals, all_ingredients = get_meals_with_macros()
+
+    return render_template("plans/meal_index.html", ingredient=ingredient, meals=meals, ingredients=all_ingredients, result=result)
