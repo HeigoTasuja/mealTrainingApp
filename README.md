@@ -1,7 +1,7 @@
 # mealTrainingApp
 Application to track meals and training
 
-Still somewhat of WIP.
+Still somewhat of WIP...
 
 To start using this app, just clone the repository, install requirements (suggested to use venv ofc....) and start the app (app.py)
 
